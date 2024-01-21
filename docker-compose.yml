@@ -1,0 +1,14 @@
+version: "1"
+
+services:
+  testpage:
+    image: ghcr.io/patrickmohr/abitmohrhub:latest
+    restart: always
+    pull_policy: always
+    ports:
+      - 8080:8080
+
+networks:
+  default:
+    external: true
+    name: proxy
