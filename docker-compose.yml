@@ -2,7 +2,7 @@ version: "1"
 
 services:
   testpage:
-    image: ghcr.io/patrickmohr/abitmohrhub:latest
+    image: ghcr.io/patrickmohr/abitmorehub:latest
     restart: always
     pull_policy: always
     ports:
