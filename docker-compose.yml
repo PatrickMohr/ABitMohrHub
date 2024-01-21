@@ -1,7 +1,7 @@
 version: "1"
 
 services:
-  testpage:
+  hubsite:
     image: ghcr.io/patrickmohr/abitmorehub:latest
     restart: always
     pull_policy: always
