@@ -1,22 +1,33 @@
-# Dockerfile
-FROM node:11.13.0-alpine
+# syntax = docker/dockerfile:1
 
-# create destination directory
-RUN mkdir -p /usr/src/nuxt-app
-WORKDIR /usr/src/nuxt-app
+ARG NODE_VERSION=18.14.2
 
-# update and install dependency
-RUN apk update && apk upgrade
-RUN apk add git
+FROM node:${NODE_VERSION}-slim as base
 
-# copy the app, note .dockerignore
-COPY . /usr/src/nuxt-app/
-RUN npm install
+ARG PORT=8080
+
+ENV NODE_ENV=production
+
+WORKDIR /src
+
+# Build
+FROM base as build
+
+COPY --link package.json package-lock.json .
+RUN npm install --production=false
+
+COPY --link . .
+
 RUN npm run build
+RUN npm prune
 
-EXPOSE 3000
+# Run
+FROM base
 
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
+ENV PORT=$PORT
 
-CMD [ "npm", "start" ]
+COPY --from=build /src/.output /src/.output
+# Optional, only needed if you rely on unbundled dependencies
+# COPY --from=build /src/node_modules /src/node_modules
+
+CMD [ "node", ".output/server/index.mjs" ]
