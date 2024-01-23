@@ -2,7 +2,7 @@ version: "1"
 
 services:
   hubsite:
-    image: ghcr.io/patrickmohr/abitmorehub:latest
+    image: ghcr.io/patrickmohr/abitmohrhub:latest
     restart: always
     pull_policy: always
     ports:
